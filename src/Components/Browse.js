@@ -4,8 +4,7 @@ import { useState } from 'react';
 
 import './Browse.css';
 import ItemDetail from './ItemDetail';
-
-
+import { Link } from 'react-router-dom';
 
 
 //Special item component
@@ -42,12 +41,7 @@ const special2 = {
     img: "https://www.opentable.com/blog/wp-content/uploads/sites/108/2011/09/TCJD-2-2-Seal-Fate.jpg"
 }
 
-
-
-
-
 function Browse() {
-
 
     const [data, setData] = useState([]);
 
@@ -81,17 +75,25 @@ function Browse() {
                     <h1>{item.name}</h1>
                     <p>{item.browse_description}</p>
                 </content>
+
                 <price-container>
                     <price>{item.price}</price>
-                    <button className="order" onClick={() => {itemClickHandler(item.id)}}></button>
-                    <button className="later"></button>
+
+                    {/* assign route and paramter to pass when click */}
+                    <Link to = {`/ItemDetail/${item.id}`}>
+                        <button className="order"></button>
+                        <button className="later"></button>
+                    </Link>
                 </price-container>
             </item>
         ))
         return items
     }
 
+
+
     return (
+        
         <>
             <Special data={special1} />
 
@@ -109,6 +111,8 @@ function Browse() {
     )
 
     function itemClickHandler(id) {
+
+        alert(id);
         <ItemDetail id={id}/>
     }
 }

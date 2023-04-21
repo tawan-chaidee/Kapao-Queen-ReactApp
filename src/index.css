@@ -1,3 +1,4 @@
+
 /* body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -7,6 +8,11 @@
   -moz-osx-font-smoothing: grayscale;
 } */
 
+:root {
+  --accent-1-rgb: 242, 133, 0;
+  --accent-1: rgb(var(--accent-1-rgb));
+  color: black;
+}
 
 body {
   margin: 0;

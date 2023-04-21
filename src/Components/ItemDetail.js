@@ -3,15 +3,20 @@ import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import './ItemDetail.css';
+import { useParams } from 'react-router-dom';
 
 
-function ItemDetail(props) {
+function ItemDetail() {
+
+
+    //Get parameter from url
+    const {id} = useParams();
 
     const [item, setData] = useState([]);
 
     // Fetch json data of items from api
     useEffect(() => {
-        fetch(`http://localhost:3030/foodDetail?id=${props.id}`)
+        fetch(`http://localhost:3030/foodDetail?id=${id}`)
             .then(response => response.json())
             .then(data => {
                 setData(data)
@@ -20,7 +25,6 @@ function ItemDetail(props) {
     }, []);
 
 
-    console.log(item)
     return (
         <body>
             <section className="wrap-2 namewrap">
