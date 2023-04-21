@@ -1,0 +1,428 @@
+/* -------------------------------ITEM----------------------------------- */
+
+:root {
+    --accent-1-rgb: 242, 133, 0;
+    --accent-1: rgb(var(--accent-1-rgb));
+    color: black;
+}
+
+/* == Header == */
+header {
+    width: 100%;
+    top: 0;
+    padding: 20px;
+    display: grid;
+    grid-template-columns: 1fr 220px 1fr;
+    grid-template-areas: "left logo right";
+    box-sizing: border-box;
+    z-index: 1;
+    max-width: 100vw;
+}
+
+header :is(left, right) {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+header left {
+    justify-content: flex-end;
+    grid-area: left;
+}
+
+header right {
+    justify-content: flex-start;
+    grid-area: right;
+}
+
+header logo {
+    display: grid;
+    grid-area: logo;
+    place-items: center;
+    font-size: 1.5em;
+    white-space: nowrap;
+}
+
+header div {
+    margin: 0 0.5em;
+}
+
+header.line {
+    border-bottom: 1px solid #888;
+}
+
+.grow {
+    flex-grow: 1;
+}
+
+/* Mobile screen */
+@media screen and (max-width: 768px) {
+    header {
+        grid-template-columns: min-content 1fr min-content;
+        grid-template-areas: "logo left right";
+    }
+
+    header left {
+        justify-content: flex-start;
+    }
+
+    a text {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    a text2 {
+        display: none;
+    }
+}
+
+
+/* == Item == */
+
+item {
+    display: grid;
+    position: relative;
+    border: 2px solid #eee;
+    overflow: hidden;
+    border-radius: 1em;
+    /*   margin-top: 1em; */
+    transition: all 0.3s;
+}
+
+item:hover {
+    border: 2px solid var(--accent-1);
+}
+
+item.vertical {
+    grid-template-columns: 1fr;
+    grid-template-rows: 14em min-content min-content;
+    grid-template-areas:
+        "img"
+        "content"
+        "price";
+}
+
+@media screen and (max-width: 576px) {
+
+    /* fix some seam problem */
+    item:not(.vertical) {
+        grid-template-columns: 1fr !important;
+        grid-template-rows: 14em min-content min-content !important;
+        grid-template-areas:
+            "img"
+            "content"
+            "price" !important;
+        height: auto !important;
+    }
+}
+
+@media screen and (min-width: 576px) {
+    item:not(.vertical) {
+        grid-template-columns: 10em 1fr 8em;
+        grid-template-rows: auto;
+        grid-template-areas: "img content price";
+        height: 10em;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    item:not(.vertical):hover {
+        grid-template-columns: 15em 1fr 8em;
+    }
+}
+
+/* img */
+
+item :is(img, .img) {
+    grid-area: img;
+}
+
+item img {
+    grid-area: img;
+    width: 100%;
+    object-fit: cover;
+    height: 100%;
+    transition: all 0.3s;
+}
+
+/* content */
+item :is(content, .content) {
+    grid-area: content;
+    display: grid;
+    grid-template-rows: min-content 1fr min-content;
+    margin: 1em;
+}
+
+item :is(content, .content) h1 {
+    font-size: 1.5em;
+    margin: 0;
+}
+
+item :is(content, .content) p {
+    margin: 0.6em 0;
+    opacity: 0.6;
+}
+
+item taglist {
+    display: flex;
+    column-gap: 0.5em;
+}
+
+item tag:before {
+    content: "#";
+}
+
+item tag {
+    color: var(--accent-1);
+}
+
+/* price-container */
+item.price-container {
+    grid-area: price;
+}
+
+item price-container {
+    grid-area: price;
+
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+
+    overflow: hidden;
+    margin: 1em;
+}
+
+item.vertical price-container {
+    flex-direction: row;
+    margin-top: 0;
+}
+
+item.vertical price-container price {
+    text-align: left;
+    flex-grow: 1;
+    margin-top: 0;
+}
+
+item price-container price {
+    text-align: right;
+    font-size: 1.5em;
+}
+
+item price-container price:after {
+    content: " ฿";
+}
+
+@media screen and (max-width: 576px) {
+    item price-container {
+        flex-direction: row;
+        margin-top: 0;
+    }
+
+    item price-container price {
+        text-align: left;
+        flex-grow: 1;
+        margin-top: 0;
+    }
+}
+
+item button {
+    width: 180;
+    height: 60px;
+    margin: 16px;
+}
+
+item price-container .order:before {
+    content: "Order now";
+}
+
+item price-container .order {
+    background: var(--accent-1);
+    border-radius: 0.25em;
+}
+
+item price-container .later:before {
+    content: "save for later";
+}
+
+item price-container .later {
+    background: none;
+    text-decoration: underline;
+}
+
+/* == Wrap == */
+
+*[class^="wrap"] img {
+    position: absolute;
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+    z-index: -1;
+    filter: brightness(70%);
+}
+
+*[class^="wrap"] {
+    position: relative;
+    display: grid;
+    place-items: center;
+    place-content: center;
+    overflow: hidden;
+    /*   height: 300px; */
+    width: 100%;
+    color: white;
+}
+
+/* Default Behaviour */
+button {
+    outline: transparent;
+    padding: 0.5em 1em;
+    border: none;
+    transition: filter 0.3s;
+    cursor: pointer;
+}
+
+button:hover {
+    filter: brightness(125%);
+}
+
+button i {
+    margin-right: 0.5em;
+}
+
+*[onclick] {
+    cursor: pointer;
+}
+
+/* -------------------------------CONTAINER OF ITEM ----------------------------------- */
+
+
+  
+  .search-box {
+    grid-column: 1/3;
+    display: flex;
+    column-gap: 0.25em;
+    width: 30vw;
+  }
+  
+  .search-box input {
+    flex-grow: 1;
+    padding: 1em !important;
+    filter: opacity(80%);
+    border-radius: 0.5em;
+    border: none;
+    outline: transparent;
+    transition: all 0.2s;
+  }
+  
+  /*The container with color background */
+  .promotion-container {
+    margin-top: 20px;
+    margin-bottom: 15px;
+    margin-left: auto;
+    margin-right: auto;
+  
+    background-color: #ffc966;
+    min-height: 300px;
+  
+    /* make a grid that split column into 2 with identical width */
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  
+    max-width: 1420px;
+  }
+  
+  .promotion-container img {
+    border-radius: none;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+  }
+  
+  .promotion-container button {
+    background-color: #9ee2ff;
+    outline: transparent;
+    border: none;
+    border-radius: 0.25em;
+  
+    padding: 0.5em 1em;
+  
+    transition: all 0.3s;
+  }
+  
+  .promotion-container button:hover {
+    position: relative;
+    outline: transparent;
+    filter: brightness(125%);
+    box-shadow: 0 5px 10px rgba(var(--accent-1-rgb), 0.8);
+  }
+  
+  /*The container of item inside browse page */
+  .container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5em;
+  }
+  
+  .container :is(item, .item) {
+    flex: 1 1 18em;
+  }
+  
+  /*Item of special promotion  */
+  .item-3 {
+    padding: 12px;
+  }
+  
+  /* About page */
+  .about-us {
+    padding: 0 2em;
+    border-bottom: 1px solid gray;
+  }
+  
+  .item-about {
+    display: block;
+    flex: 1 1 20em;
+    /*   height: 36%; bro use pixel/em */
+    min-height: 20em;
+    max-width: 420px;
+    flex-grow: 1;
+    padding: 20px;
+    margin: 10px;
+  }
+  
+  .item-about h2 {
+    text-align: center;
+    margin-bottom: 0;
+  }
+  
+  .item-about h3 {
+    text-align: center;
+    opacity: 0.8;
+  }
+  
+  .item-about img {
+    border-radius: 50%;
+  
+    width: 10em;
+    height: 10em;
+  
+    display: block;
+    margin: auto;
+  }
+  
+  .item-about .link-box {
+    display: flex;
+    gap: 0.5em;
+    justify-content: center;
+  
+    font-size: 1.5em;
+  
+    margin-top: 1em;
+  }
+  
+  footer ul {
+    margin: 0;
+    list-style-type: none;
+  }
+  
+

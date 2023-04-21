@@ -1,13 +1,110 @@
-body {
+/* body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+} */
+
+
+body {
+  margin: 0;
+  font-family: "Source Serif Pro", "Niramit", serif;
+  /*   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; */
+  font-size: 1.1em;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+
+  /*   Stop horionzol scrolling */
+  max-width: 100%;
+  overflow-x: hidden;
+  
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+/* -------------------------------------------------- */
+
+html {
+  height: 100%;
+  width: 100%;
+
+  /*   Stop horionzol scrolling */
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+:root {
+  --accent-1-rgb: 242, 133, 0;
+  --accent-1: rgb(var(--accent-1-rgb));
+  color: black;
+}
+
+
+
+.button:hover {
+  outline: transparent;
+  filter: brightness(125%);
+}
+
+/* Default Behaviour */
+button {
+  outline: transparent;
+  padding: 0.5em 1em;
+  border: none;
+  transition: filter 0.3s;
+  cursor: pointer;
+}
+
+button:hover {
+  filter: brightness(125%);
+}
+
+button i {
+  margin-right: 0.5em;
+}
+
+*[onclick] {
+  cursor: pointer;
+}
+
+/*cool button*/
+.cool-button {
+  outline: transparent;
+  background-color: var(--accent-1);
+  border: none;
+  padding: 0.5em 1em;
+  border-radius: 0.5em;
+  transition: all 0.3s;
+}
+
+.cool-button:hover {
+  outline: transparent;
+  filter: brightness(125%);
+  box-shadow: 0 5px 10px rgba(var(--accent-1-rgb), 0.8);
+}
+
+/* Helper function */
+.flex {
+  display: flex;
+}
+
+.auto-padding {
+  padding: 1em;
+  box-sizing: border-box;
+}
+
+.grid-center {
+  display: grid;
+  place-items: center;
 }
