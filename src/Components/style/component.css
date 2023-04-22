@@ -123,8 +123,14 @@ item.vertical {
     align-items: center;
 } */
 
-.food-search-1 input {
+.food-search-1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
+}
+
+.food-search-1 input {
     height: 40px;
     padding: 0.125em 0.25em;
     border-radius: 12px;
@@ -133,6 +139,7 @@ item.vertical {
     filter: opacity(80%);
     transition: all 0.2s;
     width: 28vw;
+    background-color: rgb(241, 241, 241);
 }
 
 .food-search-1 button {
@@ -149,5 +156,4 @@ item.vertical {
     height: 40px;
     width: 4vw;
     min-width: 80px;
-
 }

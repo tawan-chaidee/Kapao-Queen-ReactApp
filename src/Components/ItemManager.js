@@ -48,7 +48,7 @@ function Manager() {
             });
 
             const result = await response.json();
-            console.log(result);
+            window.location.reload();
             return result;
         } catch (error) {
             console.error(error);
@@ -56,16 +56,12 @@ function Manager() {
     }
 
     const deleteHandler = async (deleteID) => {
-
         try {
-
-            console.log(JSON.stringify(deleteID))
             const response = await fetch(`http://localhost:3030/itemDelete?id=${deleteID}`, {
                 method: 'DELETE',
             });
 
             const result = await response.json();
-            console.log(result);
             window.location.reload();
 
             return result;

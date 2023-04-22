@@ -7,6 +7,7 @@ import Browse from './Components/Browse';
 import ItemDetail from './Components/ItemDetail';
 import ItemManager from './Components/ItemManager';
 import HomePage from './Components/HomePage';
+import Search from './Components/Search';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -30,7 +31,7 @@ function NavBar() {
         </left>
         <Link to = "/"><logo>Kapao Queen</logo></Link>
         <right>
-          <Link to = "/ItemManager">
+          <Link to = "/Search">
             <div className="flex">
               <i className="fa-solid fa-magnifying-glass"></i>
               <text2>Search</text2>
@@ -48,6 +49,7 @@ function NavBar() {
         <Route path="/ItemManager" element={<ItemManager />} />
         <Route path="/ItemDetail/:id" element={<ItemDetail />} />
         <Route path="/" element={<HomePage />} />
+        <Route path="/Search/" element={<Search />} />
 
       </Routes>
     </BrowserRouter>
