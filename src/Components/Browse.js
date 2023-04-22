@@ -2,7 +2,8 @@ import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
 
-import './Browse.css';
+import './style/Browse.css';
+import './style/component.css';
 import ItemDetail from './ItemDetail';
 import { Link } from 'react-router-dom';
 

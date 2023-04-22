@@ -5,8 +5,8 @@ import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 
 import Browse from './Components/Browse';
 import ItemDetail from './Components/ItemDetail';
-// import './Components/ItemDetail.css'
 import ItemManager from './Components/ItemManager';
+import HomePage from './Components/HomePage';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -28,7 +28,7 @@ function NavBar() {
             </div>
           </Link>
         </left>
-        <a href="${headerLink}/index.html"><logo>Kapao Queen</logo></a>
+        <Link to = "/"><logo>Kapao Queen</logo></Link>
         <right>
           <Link to = "/ItemManager">
             <div className="flex">
@@ -47,6 +47,7 @@ function NavBar() {
         <Route path="/Browse" element={<Browse />} />
         <Route path="/ItemManager" element={<ItemManager />} />
         <Route path="/ItemDetail/:id" element={<ItemDetail />} />
+        <Route path="/" element={<HomePage />} />
 
       </Routes>
     </BrowserRouter>

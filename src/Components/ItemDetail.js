@@ -2,8 +2,8 @@
 import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
-import './ItemDetail.css';
 import { useParams } from 'react-router-dom';
+import './style/ItemDetail.css';
 
 
 function ItemDetail() {
@@ -36,20 +36,20 @@ function ItemDetail() {
                     <li>{item.tag2}</li>
                     {/* <li>Himaphan</li> */}
                 </ul>
-                <button className="back-button" onclick="window.history.back()">
+                <button className="back-button" onClick={() =>{window.history.back()}}>
                     <i className="fa-solid fa-arrow-left"></i>
                     Back
                 </button>
-                <button className="edit-button" onclick='window.location.href = "../product-management.html"'>
-                    <i className="fa-solid fa-pen"></i>
-                    Edit
-                </button>
+
             </section>
     
             <section className="introduction">
                 <img src={item.img} />
                 <h2>{item.browse_description}</h2>
+
+                <p>
                 {item.description}
+                </p>
     
                 <div className="order-container">
                     <span className="price">{item.price}</span>
@@ -64,14 +64,12 @@ function ItemDetail() {
     
             <section className="ingredients">
                 <h2>Key Ingredients</h2>
-                <ul className="container">
+                <ul className="container-2">
                     <li>
                         <img src={item.ingredient_1} />
-                        {/* <h3>Himalayan cheese</h3> */}
                     </li>
                     <li>
                         <img src={item.ingredient_2} />
-                        {/* <h3>Himalayan herb</h3> */}
                     </li>
                     <li>
                         <img src={item.ingredient_3} />

@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import './Manager.css';
+import './style/Manager.css';
 
 
 function Manager() {
@@ -34,9 +34,9 @@ function Manager() {
 
 
 
-    // Handle fetch put of Edit product form
+    // Handle fetch put of Edit product form libary
     // 'react hook form' libary will pass form info into data parameter
-    // Use this data call put request
+    // Use this data to call put request
     const putHandler = async (data) => {
         try {
             const response = await fetch(`http://localhost:3030/itemUpdate`, {

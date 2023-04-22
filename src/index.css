@@ -26,7 +26,7 @@ body {
   /*   Stop horionzol scrolling */
   max-width: 100%;
   overflow-x: hidden;
-  
+
 }
 
 code {
@@ -55,7 +55,6 @@ a {
   --accent-1: rgb(var(--accent-1-rgb));
   color: black;
 }
-
 
 
 .button:hover {
@@ -113,4 +112,86 @@ button i {
 .grid-center {
   display: grid;
   place-items: center;
+}
+
+
+/* Common css shared*/
+
+/* make text in center */
+.bg .main-header {
+  text-align: center;
+  margin: 1em;
+}
+
+/* trending box */
+.trending {
+  max-width: 1024px;
+}
+
+.trending .list {
+  display: flex;
+  gap: 0.5em;
+}
+
+.trending .list > * {
+  flex: 1 1;
+}
+
+/* for mobile display */
+@media screen and (max-width: 768px) {
+  .bg .main-header {
+    margin-top: 3em;
+  }
+
+  .trending {
+    width: 100%;
+  }
+
+  .trending .list {
+    flex-direction: column;
+  }
+}
+
+/* edit item in trending to the new style */
+.trending item.vertical {
+  margin: 0;
+  grid-template-rows: 8em 4em;
+  grid-template-areas: "img img" "content price";
+}
+
+.trending item img {
+  /* this is to make image sit under text */
+  grid-area: 1/1/3/3;
+}
+
+.trending item content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  background-color: #0008;
+  margin: 0;
+  padding: 1em;
+}
+
+.trending item content h1 {
+  font-size: 1em;
+}
+
+.trending item content p {
+  margin: 0;
+}
+
+.trending item price-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  background-color: #0008;
+  margin: 0;
+  padding: 1em;
+}
+
+.trending item price {
+  font-size: 1.1em;
 }
