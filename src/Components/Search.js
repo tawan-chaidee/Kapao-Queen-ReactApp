@@ -17,7 +17,6 @@ function SearchBar () {
     const [type,setType] = useState('name');
 
 
-
     useEffect(() => {
         fetch('http://localhost:3030/foodlist')
             .then(response => response.json())
@@ -28,16 +27,8 @@ function SearchBar () {
     }, []);
 
 
-    // Fetch data using input form and type
     function onSubmitHandler () {
-        // ALERT - change the url to your api
-        // some thing like
-        // app.get('/itemSearch', function (req, res) {
-
-        //     const type = req.query.id;
-        //     const query = req.query.query;
-        
-        fetch(`http://localhost:3030/itemSearch/?${type}&$query=${query}`)
+        fetch(`http://localhost:3030/itemSearch/?type=${type}&query=${query}`)
         .then((response) => response.json())
         .then((data) => {
           setData(data);
@@ -89,7 +80,7 @@ function SearchBar () {
         <>
         <div class="food-search-1">
             <input type="text" onChange = {onChangeHandler} placeholder="Input..."/>
-            <button class="cool-button" onClick={onSubmitHandler}>Search</button> 
+            <button class="cool-button" onClick={() => {onSubmitHandler()}}>Search</button> 
             <select id="type" name="type" onChange={typeHandler}>
                 <option value="name">By Name</option>
                 <option value="id">By ID</option>
