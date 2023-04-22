@@ -1,0 +1,159 @@
+.food-item {
+  display: grid;
+  position: relative;
+  border: 2px solid #eee;
+  overflow: hidden;
+  border-radius: 1em;
+  transition: all 0.3s;
+  flex: 1 1 300px;
+}
+
+.food-item:hover {
+  border: 2px solid var(--accent-1);
+}
+
+.food-item.vertical {
+  grid-template-columns: 1fr;
+  grid-template-rows: 14em min-content min-content;
+  grid-template-areas:
+    "img"
+    "content"
+    "price";
+}
+
+@media screen and (max-width: 576px) {
+  /* fix some seam problem */
+  .food-item:not(.vertical) {
+    grid-template-columns: 1fr !important;
+    grid-template-rows: 14em min-content min-content !important;
+    grid-template-areas:
+      "img"
+      "content"
+      "price" !important;
+    height: auto !important;
+  }
+}
+
+@media screen and (min-width: 576px) {
+  .food-item:not(.vertical) {
+    grid-template-columns: 10em 1fr 8em;
+    grid-template-rows: auto;
+    grid-template-areas: "img content price";
+    height: 10em;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .food-item:not(.vertical):hover {
+    grid-template-columns: 15em 1fr 8em;
+  }
+}
+
+/* img */
+
+.food-item :is(img, .img) {
+  grid-area: img;
+}
+
+.food-item img {
+  grid-area: img;
+  width: 100%;
+  object-fit: cover;
+  height: 100%;
+  transition: all 0.3s;
+}
+
+/* content */
+.food-item .content {
+  grid-area: content;
+  display: grid;
+  grid-template-rows: min-content 1fr min-content;
+  margin: 1em;
+}
+
+.food-item .content h1 {
+  font-size: 1.5em;
+  margin: 0;
+}
+
+.food-item .content p {
+  margin: 0.6em 0;
+  opacity: 0.6;
+}
+
+/* .food-item taglist {
+  display: flex;
+  column-gap: 0.5em;
+}
+
+.food-item tag:before {
+  content: "#";
+}
+
+.food-item tag {
+  color: var(--accent-1);
+} */
+
+/* price-container */
+
+.food-item .price-container {
+  grid-area: price;
+
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+
+  overflow: hidden;
+  margin: 1em;
+}
+
+.food-item.vertical .price-container {
+  flex-direction: row;
+  margin-top: 0;
+}
+
+.food-item.vertical .price-container .price {
+  text-align: left;
+  flex-grow: 1;
+  margin-top: 0;
+}
+
+.food-item .price-container .price {
+  text-align: right;
+  font-size: 1.5em;
+}
+
+.food-item .price-container .price:after {
+  content: " ฿";
+}
+
+@media screen and (max-width: 576px) {
+  .food-item .price-container {
+    flex-direction: row;
+    margin-top: 0;
+  }
+
+  .food-item .price-container .price {
+    text-align: left;
+    flex-grow: 1;
+    margin-top: 0;
+  }
+}
+
+.food-item .price-container .order:before {
+  content: "Order now";
+}
+
+.food-item .price-container .order {
+  background: var(--accent-1);
+  border-radius: 0.25em;
+}
+
+.food-item .price-container .later:before {
+  content: "save for later";
+}
+
+.food-item .price-container .later {
+  background: none;
+  text-decoration: underline;
+}

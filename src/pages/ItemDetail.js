@@ -1,14 +1,10 @@
-
 import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import './style/ItemDetail.css';
 
-
 function ItemDetail() {
-
-
     //Get parameter from url
     const {id} = useParams();
 
@@ -23,7 +19,6 @@ function ItemDetail() {
             })
             .catch(error => console.error(error));
     }, []);
-
 
     return (
         <body>

@@ -3,23 +3,31 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 
-import Browse from './Components/Browse';
-import ItemDetail from './Components/ItemDetail';
-import ItemManager from './Components/ItemManager';
-import HomePage from './Components/HomePage';
-import Search from './Components/Search';
+import Browse from './pages/Browse';
+import ItemDetail from './pages/ItemDetail';
+import ItemManager from './pages/ItemManager';
+import HomePage from './pages/HomePage';
+import Search from './pages/Search';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <NavBar />
+    <BrowserRouter>
+      <NavBar />
+      <Routes>
+        <Route path="/Browse" element={<Browse />} />
+        <Route path="/ItemManager" element={<ItemManager />} />
+        <Route path="/ItemDetail/:id" element={<ItemDetail />} />
+        <Route path="/" element={<HomePage />} />
+        <Route path="/Search/" element={<Search />} />
+      </Routes>
+    </BrowserRouter>
   </React.StrictMode>
 );
 
 function NavBar() {
   return (
-    <BrowserRouter>
       <header>
         <left>
           <Link to = "/Browse">
@@ -43,15 +51,5 @@ function NavBar() {
           </a>
         </right>
       </header>
-
-      <Routes>
-        <Route path="/Browse" element={<Browse />} />
-        <Route path="/ItemManager" element={<ItemManager />} />
-        <Route path="/ItemDetail/:id" element={<ItemDetail />} />
-        <Route path="/" element={<HomePage />} />
-        <Route path="/Search/" element={<Search />} />
-
-      </Routes>
-    </BrowserRouter>
   )
 }
