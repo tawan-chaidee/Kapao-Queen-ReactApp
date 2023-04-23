@@ -1,8 +1,10 @@
 import styled from "styled-components";
 import "./style/login.css"
 import config from "../config";
-import { useRef } from "react";
+import { useContext, useRef } from "react";
 import Cookie from "universal-cookie";
+import { UserContext } from "../context";
+import { useNavigate } from "react-router";
 
 const Button = styled.button`
   background-color: rgb(242, 133, 0);
@@ -25,6 +27,8 @@ const Button = styled.button`
 
 export default function Login() {
   let formData = useRef({})
+  let [userData, setUserData] = useContext(UserContext)
+  let navigate = useNavigate();
 
   function handleChange(e) {
     formData.current[e.target.name] = e.target.value
@@ -40,20 +44,30 @@ export default function Login() {
       body: JSON.stringify(formData.current)
     })
     data = await data.json()
+    if (!data.success) {
+      alert(data.message)
+      return
+    }
     console.log(data)
 
     // set token cookie
     const cookie = new Cookie()
     cookie.set("token", data.token, { path: "/" })
 
-    // try access
-    console.log("==access==")
-    let access = await fetch(`${config.apiUrl}/user/access`,{
-      credentials: 'include'
+    // get user data
+    let userData = await fetch(`${config.apiUrl}/user/${data.id}`, {
+      headers: { "Content-Type": "application/json" },
+      method: "GET",
+      credentials: "include"
     })
-    console.log(access)
-    access = await access.text()
-    console.log(access)
+    userData = await userData.json()
+
+    // save user data to localStorage and rerender the navbar
+    localStorage.setItem("user", JSON.stringify(userData.user))
+    setUserData(userData.user)
+
+    // redirect to home
+    return navigate("/")
   }
 
   return (
