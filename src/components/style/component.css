@@ -118,13 +118,7 @@ item.vertical {
 /* Style for search bar */
 
 
-/* .food-search-1 {
-    width: 100%;
-    align-items: center;
-} */
-
 .food-search-1 {
-    display: flex;
     justify-content: center;
     align-items: center;
 }
@@ -155,4 +149,8 @@ item.vertical {
     height: 40px;
     width: 4vw;
     min-width: 80px;
+}
+
+.food-search-1 .special {
+    width: 200px;
 }

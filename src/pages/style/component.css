@@ -124,10 +124,9 @@ item.vertical {
 } */
 
 .food-search-1 {
-    display: flex;
     justify-content: center;
     align-items: center;
-
+    text-align: center;
 }
 
 .food-search-1 input {
@@ -142,6 +141,21 @@ item.vertical {
     background-color: rgb(241, 241, 241);
 }
 
+.food-search-1 .advance-input {
+    margin-top:  10px;
+    margin-left: -222px;
+    height: 40px;
+    padding: 0.125em 0.25em;
+    border-radius: 12px;
+    border: none;
+    outline: transparent;
+    filter: opacity(80%);
+    transition: all 0.2s;
+    width: 28vw;
+}
+
+
+
 .food-search-1 button {
     border-radius: 12px;
     margin-left: 10px;
@@ -149,6 +163,13 @@ item.vertical {
     width: 4vw;
     min-width: 72px;
 }
+
+
+.food-search-1 .advance {
+    width: 130px;
+}
+
+
 
 .food-search-1 #type {
     border-radius: 12px;

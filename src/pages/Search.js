@@ -16,6 +16,15 @@ function SearchBar () {
     // Type of input form
     const [type,setType] = useState('name');
 
+    // Set Advance search on or off
+    const [search,setSearch] = useState(true);
+
+
+    // Data of advance search form
+    const [id,setID] = useState();
+    const [tag,setTag] = useState();
+    const [name,setName] = useState();
+
 
     useEffect(() => {
         fetch('http://localhost:3030/foodlist')
@@ -26,13 +35,21 @@ function SearchBar () {
             .catch(error => console.error(error));
     }, []);
 
-
     function onSubmitHandler () {
-        fetch(`http://localhost:3030/itemSearch/?type=${type}&search=${query}`)
-        .then((response) => response.json())
-        .then((data) => {
-          setData(data);
-        })
+
+        if (search) {
+            fetch(`http://localhost:3030/itemSearch/?type=${type}&search=${query}`)
+            .then((response) => response.json())
+            .then((data) => {
+              setData(data);
+            })
+        } else {
+            fetch(`http://localhost:3030/itemAdvanceSearch/?id=${id}&tag=${tag}&name=${name}`)
+            .then((response) => response.json())
+            .then((data) => {
+              setData(data);
+            })
+        }
     }
 
     const items = data.map((item) => (
@@ -55,14 +72,28 @@ function SearchBar () {
         </item>
     ))
     
-    
-
 
 
     function onChangeHandler (event) {
         setQuery(event.target.value)
     }
 
+
+    // Handle advance search onchange
+    function advanceOnChangeHandler(event) {
+        const val = event.target.value
+        const target = event.target.name
+        if (target === 'id') {
+            setID(val)
+        } else if (target === 'name') {
+            setName(val)
+        } else if (target === 'tag') {
+            setTag(val)
+        }
+    }
+
+
+    // onchange of the set search type button
     function typeHandler(event) {
         const val = event.target.value
         if (type === 'id') {
@@ -74,24 +105,44 @@ function SearchBar () {
         }
     }
 
-    return (
-        <>
-        <div class="food-search-1">
-            <input type="text" onChange = {onChangeHandler} placeholder="Input..."/>
-            <button class="cool-button" onClick={() => {onSubmitHandler()}}>Search</button> 
-            <select id="type" name="type" onChange={typeHandler}>
-                <option value="name">By Name</option>
-                <option value="id">By ID</option>
-                <option value="tag">By Tag</option>
-            </select>
-        </div>
+    if (search == true) {
+        return (
+            <>
+            <div class="food-search-1">
+                <input type="text" onChange = {onChangeHandler} placeholder="Input..."/>
+                <button class="cool-button" onClick={() => {onSubmitHandler()}}>Search</button> 
+                <select id="type" name="type" onChange={typeHandler}>
+                    <option value="name">By Name</option>
+                    <option value="id">By ID</option>
+                    <option value="tag">By Tag</option>
+                </select>    
+                <button class="advance" onClick={() => setSearch(!search)}>Advance Search</button> 
+            </div>
+    
+            <section className="container auto-padding">
+                {items}
+            </section>
+            </>
+        )
+    } else {
+        return (
+            <>
+            <div class="food-search-1">
+                <input type="text" onChange = {advanceOnChangeHandler} placeholder="Search by NAME" name='name'/>
+                <button class="advance" onClick={() => setSearch(!search)}>Advance Search</button> 
+                <button class="cool-button" onClick={() => {onSubmitHandler()}}>Search</button> <br/>
+                <input type="text" class = "advance-input" onChange = {advanceOnChangeHandler} placeholder="Search by TAG" name='tag'/><br/>
+                <input type="text" class = "advance-input" onChange = {advanceOnChangeHandler} placeholder="Search by ID" name='id'/>
+            </div>
+    
+            <section className="container auto-padding">
+                {items}
+            </section>
+            </>
 
-        <section className="container auto-padding">
-            {items}
-        </section>
+        )
+    }
 
-        </>
-    )
     
 }
 
