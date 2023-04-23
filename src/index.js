@@ -10,6 +10,7 @@ import ItemManager from './pages/ItemManager';
 import HomePage from './pages/HomePage';
 import Search from './pages/Search';
 import Login from './pages/Login';
+import Register from './pages/Register';
 import { UserContext } from './context';
 
 
@@ -35,6 +36,8 @@ function App() {
       <Route path="/" element={<HomePage />} />
       <Route path="/Search/" element={<Search />} />
       <Route path="/login/" element={<Login />} />
+      <Route path="/register/" element={<Register />} />
+      {/* <React path="/register/" element={<Register />} /> */}
     </Routes>
   </UserContext.Provider>
 }

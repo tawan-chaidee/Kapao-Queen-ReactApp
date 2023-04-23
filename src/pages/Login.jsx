@@ -5,24 +5,11 @@ import { useContext, useRef } from "react";
 import Cookie from "universal-cookie";
 import { UserContext } from "../context";
 import { useNavigate } from "react-router";
+import Button from "../components/Button";
 
-const Button = styled.button`
-  background-color: rgb(242, 133, 0);
-  color: white;
-  
-  border: none;
-  border-radius: 5px;
-
-  width: 110px;
-  height: 38px;
-
-  transition: all 0.3s;
-
-  :hover {
-    outline: transparent;
-    filter: brightness(125%);
-    box-shadow: 0 5px 10px rgba(242, 133, 0, 0.8)
-  }
+const LabelStyled = styled.label`
+  color: #444;
+  margin-bottom: 5px;
 `
 
 export default function Login() {
@@ -75,18 +62,20 @@ export default function Login() {
       <div className="login-container" onSubmit={handleSubmit}>
         <h1>Login</h1>
         <form method="POST">
+          <LabelStyled></LabelStyled>
           <label htmlFor="username">Username</label>
-          <br />
           <input type="text" id="username" name="username" required onChange={handleChange} />
-          <br />
 
           <label htmlFor="password">Password</label>
-          <br />
-          <input type="text" id="password" name="password" required onChange={handleChange} />
-          <br />
+          <input type="password" id="password" name="password" required onChange={handleChange} />
 
-          <Button type="submit">Submit</Button>
-          {/* <button type="submit" class="login_button">Submit</button> */}
+          <div style={{ display: "flex",gap: ".5em",justifyContent:"center"}}>
+          <Button type="submit">Login</Button>
+          <Button onClick={(e)=>{
+            e.preventDefault()
+            navigate("/register")
+          }}>Register</Button>
+          </div>
         </form>
       </div>
     </>

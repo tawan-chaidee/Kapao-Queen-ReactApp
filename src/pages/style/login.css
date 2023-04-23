@@ -1,17 +1,22 @@
 /*Container of login page  */
 .login-container {
-  height: 360px;
-  width: 360px;
+  /* height: 360px; */
+  /* width: 360px; */
+  max-width: 468px;
+  padding: 1em;
 
   border-style: solid;
   border-radius: 10px;
   border-width: 0.01rem;
   border-color: #b0b0b0;
   
-  display: block;
-  margin-top: 3%;
-  margin-left: auto;
-  margin-right: auto;
+  
+  margin: 0 auto;
+  margin-top: 1em;
+  /* text-align: center; */
+}
+
+.login-container h1 {
   text-align: center;
 }
 
@@ -28,11 +33,22 @@
   height: 38px;
 } */
 
-.login-container input {
+.login-container form {
+  display: flex;
+  flex-direction: column;
+}
+
+.login-container form input {
+  padding: .5em;
+  flex: 1 1 0;
+  margin-bottom: 12px;
+}
+
+/* .login-container input {
   width: 240px;
   height: 28px;
   margin-bottom: 12px;
-}
+} */
 
 /*"Create account" text*/
 #create-account {
