@@ -28,14 +28,12 @@ function SearchBar () {
 
 
     function onSubmitHandler () {
-        fetch(`http://localhost:3030/itemSearch/?type=${type}&query=${query}`)
+        fetch(`http://localhost:3030/itemSearch/?type=${type}&search=${query}`)
         .then((response) => response.json())
         .then((data) => {
           setData(data);
         })
     }
-
-
 
     const items = data.map((item) => (
         <item className="vertical" href="./page/som_tam.html">

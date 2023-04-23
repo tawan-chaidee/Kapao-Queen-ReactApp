@@ -1,25 +1,23 @@
 import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
-import styled from 'styled-components';
 
 import './style/Browse.css';
 import './style/component.css';
 import ItemDetail from './ItemDetail';
 import { Link } from 'react-router-dom';
-import Item from '../components/Item';
 
 
 //Special item component
-function Special({ title, description, img }) {
+function Special(props) {
     return (
         <section class="promotion-container">
             <article class="item-3">
-                <h2>{title}</h2>
-                <p>{description}</p>
+                <h2>{props.data.title}</h2>
+                <p>{props.data.description}</p>
                 <button>Find out more</button>
             </article>
-            <img src={img} />
+            <img src={props.data.img} />
         </section>
     )
 }
@@ -44,29 +42,23 @@ const special2 = {
     img: "https://www.opentable.com/blog/wp-content/uploads/sites/108/2011/09/TCJD-2-2-Seal-Fate.jpg"
 }
 
-const Container = styled.div`
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    margin: 1rem;
-`
-
 function Browse() {
+
     const [data, setData] = useState([]);
 
     // Fetch json data of items from api
     useEffect(() => {
-        fetch('http://localhost:3030/foodlist')
-            .then(response => response.json())
-            .then(data => {
-                setData(data)
-            })
-            .catch(error => console.error(error));
+      fetch("http://localhost:3030/foodlist")
+        .then((response) => response.json())
+        .then((data) => {
+          setData(data);
+        })
+        .catch((error) => console.error(error));
     }, []);
 
-    // sorting each items
     let foods = []
     let dessert = []
+
     data.forEach((item) => {
         if (item.type === `food`) {
             foods.push(item)
@@ -75,25 +67,54 @@ function Browse() {
         }
     })
 
-    return <>
-        <Special {...special1} />
-        <Container>
-            { foods.map((item) => (
-                <Item {...item}></Item>
-            ))}
-        </Container>
-        <Special {...special2} />
-        <Container>
-            {dessert.map((item) => (<Item {...item}></Item>))}
-        </Container>
-    </>
+    function ItemList(prop) {
+        const items = prop.data.map((item) => (
+            <item className="vertical" href="./page/som_tam.html">
+                <img src={item.img} />
+                <content>
+                    <h1>{item.name}</h1>
+                    <p>{item.browse_description}</p>
+                </content>
+
+                <price-container>
+                    <price>{item.price}</price>
+
+                    {/* assign route and paramter to pass when click */}
+                    <Link to = {`/ItemDetail/${item.id}`}>
+                        <button className="order"></button>
+                        <button className="later"></button>
+                    </Link>
+                </price-container>
+            </item>
+        ))
+        return items
+    }
 
 
-    // function itemClickHandler(id) {
 
-    //     alert(id);
-    //     <ItemDetail id={id} />
-    // }
+    return (
+        
+        <>
+            <Special data={special1} />
+
+            <section className="container auto-padding">
+                <ItemList data={foods}/>
+            </section>
+
+            <Special data={special2} />
+
+            <section className="container auto-padding">
+                <ItemList data={dessert}/>
+            </section>
+
+        </>
+    )
+
+    function itemClickHandler(id) {
+
+        alert(id);
+        <ItemDetail id={id}/>
+    }
 }
 
 

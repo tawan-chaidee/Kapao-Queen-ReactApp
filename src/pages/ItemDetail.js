@@ -12,7 +12,7 @@ function ItemDetail() {
 
     // Fetch json data of items from api
     useEffect(() => {
-        fetch(`http://localhost:3030/foodDetail?id=${id}`)
+        fetch(`http://localhost:3030/itemDetail?id=${id}`)
             .then(response => response.json())
             .then(data => {
                 setData(data)
