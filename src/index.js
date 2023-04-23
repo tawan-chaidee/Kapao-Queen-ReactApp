@@ -8,6 +8,7 @@ import ItemDetail from './pages/ItemDetail';
 import ItemManager from './pages/ItemManager';
 import HomePage from './pages/HomePage';
 import Search from './pages/Search';
+import Login from './pages/Login';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -21,6 +22,7 @@ root.render(
         <Route path="/ItemDetail/:id" element={<ItemDetail />} />
         <Route path="/" element={<HomePage />} />
         <Route path="/Search/" element={<Search />} />
+        <Route path="/login/" element={<Login />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
@@ -46,7 +48,7 @@ function NavBar() {
             </div>
           </Link>
           <div className="grow"></div>
-          <a href="${headerLink}/login.html">
+          <a href="/login">
             <button className="login-button">Login</button>
           </a>
         </right>

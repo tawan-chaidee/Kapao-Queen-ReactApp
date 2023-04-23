@@ -11,7 +11,7 @@ import FoodItem from '../components/Item';
 
 
 //Special item component
-function Special({title, description, img}) {
+function Special({ title, description, img }) {
     return (
         <section class="promotion-container">
             <article class="item-3">
@@ -78,7 +78,9 @@ function Browse() {
     return <>
         <Special {...special1} />
         <Container>
-            {foods.map((item) => (<FoodItem {...item}></FoodItem>))}
+            { foods.map((item) => (
+                <FoodItem {...item}></FoodItem>
+            ))}
         </Container>
         <Special {...special2} />
         <Container>

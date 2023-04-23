@@ -21,7 +21,7 @@ function ItemDetail() {
     }, []);
 
     return (
-        <body>
+        <>
             <section className="wrap-2 namewrap">
                 <img src={item.background} />
                 <h1>{item.name}</h1>
@@ -86,8 +86,7 @@ function ItemDetail() {
             </section>
             <footer></footer>
             <script src="../lib/components.js"></script>
-    
-        </body>
+        </>
     );    
 }
 

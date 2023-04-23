@@ -1,0 +1,46 @@
+/*Container of login page  */
+.login-container {
+  height: 360px;
+  width: 360px;
+
+  border-style: solid;
+  border-radius: 10px;
+  border-width: 0.01rem;
+  border-color: #b0b0b0;
+  
+  display: block;
+  margin-top: 3%;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+/*submit button in login page*/
+/* .login_button {
+  background-color: #fec458;
+  color: white;
+  font-weight: bold;
+  
+  border: none;
+  border-radius: 5px;
+  
+  width: 110px;
+  height: 38px;
+} */
+
+.login-container input {
+  width: 240px;
+  height: 28px;
+  margin-bottom: 12px;
+}
+
+/*"Create account" text*/
+#create-account {
+  text-align: center;
+  margin-top: -0.5px;
+}
+
+#create-account:hover {
+  color: orange;
+  text-decoration:underline;
+}
