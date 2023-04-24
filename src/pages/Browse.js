@@ -59,7 +59,12 @@ function Browse() {
         fetch('http://localhost:3030/foodlist')
             .then(response => response.json())
             .then(data => {
-                setData(data)
+                if (data.success) {
+                    setData(data.result)
+                    console.log(data.result)
+                } else {
+                    alert(data.message)
+                }
             })
             .catch(error => console.error(error));
     }, []);

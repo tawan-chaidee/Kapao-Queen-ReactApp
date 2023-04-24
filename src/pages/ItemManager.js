@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import './style/Manager.css';
+import config from "../config"
 
 
 function Manager() {
@@ -15,6 +16,9 @@ function Manager() {
     // Store id of form to delte item
     const [deleteID, setDeleteID] = useState([]);
 
+    // store ingredient list
+    const [ingredient, setIngredient] = useState([]);
+
 
     // Fetch json data of items from api
     // To be use for table
@@ -22,9 +26,26 @@ function Manager() {
         fetch('http://localhost:3030/foodlist')
             .then(response => response.json())
             .then(data => {
-                setItem(data)
+                if (data.success) {
+                    setItem(data.result)
+                    console.log(data.result)
+                } else {
+                    alert(data.message)
+                }
+                // setItem(data)
             })
             .catch(error => console.error(error));
+        
+        fetch(`${config.apiUrl}/ingredientList`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    setIngredient(data.result)
+                    console.log(data.result)
+                } else {
+                    alert(data.message)
+                }
+            })
     }, []);
 
     //Store info to be use for put request, using react hook form
@@ -146,11 +167,20 @@ function Manager() {
                         <label for="ingredient_3">ingredient_3 url</label> <br />
                         <input type="text" id="ingredient_3" name="ingredient_3" /> <br />
 
-                        <label for="tag1">Tag1</label> <br />
-                        <input type="text" id="tag1" name="tag1" /> <br />
+                        <label for="tag1">Tags (split each tags with comma (,))</label> <br />
+                        <input type="text" id="tag1" name="taglist" /> <br />
 
-                        <label for="tag2">Tag2</label> <br />
-                        <input type="text" id="tag2" name="tag2" /> <br />
+                        <label for="ing">Ingredient (split each ingredient with comma (,))</label> <br />
+                        <input type="text" id="ing" name="ingredients"></input>
+
+                        <input type='button' onClick={()=>{
+                            
+                        }}></input>
+
+                        {/* <label for="tag2">Tag2</label> <br />
+                        <input type="text" id="tag2" name="tag2" /> <br /> */}
+
+
 
                         <br />
                         <button type="submit" class="edit2-button">Submit</button>

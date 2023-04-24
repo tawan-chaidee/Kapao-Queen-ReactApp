@@ -8,14 +8,19 @@ function ItemDetail() {
     //Get parameter from url
     const {id} = useParams();
 
-    const [item, setData] = useState([]);
+    const [item, setData] = useState({});
 
     // Fetch json data of items from api
     useEffect(() => {
         fetch(`http://localhost:3030/itemDetail?id=${id}`)
             .then(response => response.json())
             .then(data => {
-                setData(data)
+                if (data.success) {
+                    setData(data.result)
+                    console.log(data.result)
+                } else {
+                    alert(data.message)
+                }
             })
             .catch(error => console.error(error));
     }, []);
@@ -27,9 +32,11 @@ function ItemDetail() {
                 <h1>{item.name}</h1>
                 <h2>{item.thai_name}</h2>
                 <ul className="taglist">
-                    <li>{item.tag1}</li>
-                    <li>{item.tag2}</li>
-                    {/* <li>Himaphan</li> */}
+                {
+                    item.taglist?.map((tag) => (
+                        <li>{tag}</li>
+                    ))
+                }
                 </ul>
                 <button className="back-button" onClick={() =>{window.history.back()}}>
                     <i className="fa-solid fa-arrow-left"></i>
@@ -60,6 +67,14 @@ function ItemDetail() {
             <section className="ingredients">
                 <h2>Key Ingredients</h2>
                 <ul className="container-2">
+                    {item.ingredients?.map((ingredient) => (
+                        <li>
+                            <img src={ingredient.img}></img><br></br>
+                            <p1>{ingredient.name}</p1>
+                        </li>))
+                    }
+                </ul>
+                {/* <ul className="container-2">
                     <li>
                         <img src={item.ingredient_1} />
                     </li>
@@ -69,7 +84,7 @@ function ItemDetail() {
                     <li>
                         <img src={item.ingredient_3} />
                     </li>
-                </ul>
+                </ul> */}
             </section>
     
             <section className="seemsgood">
