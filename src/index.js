@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import Cookie from 'universal-cookie'
+import jwt_decode from 'jwt-decode'
 
 import Browse from './pages/Browse';
 import ItemDetail from './pages/ItemDetail';
@@ -12,6 +13,10 @@ import Search from './pages/Search';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import { UserContext } from './context';
+import config from './config';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faListUl, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -26,18 +31,16 @@ root.render(
 function App() {
   let [userData, setUserData] = useState(null);
 
-  return <UserContext.Provider value={[userData, setUserData]
-  }>
+  return <UserContext.Provider value={[userData, setUserData]}>
     <NavBar />
     <Routes>
+      <Route path="/" element={<HomePage />} />
       <Route path="/Browse" element={<Browse />} />
       <Route path="/ItemManager" element={<ItemManager />} />
       <Route path="/ItemDetail/:id" element={<ItemDetail />} />
-      <Route path="/" element={<HomePage />} />
       <Route path="/Search/" element={<Search />} />
       <Route path="/login/" element={<Login />} />
       <Route path="/register/" element={<Register />} />
-      {/* <React path="/register/" element={<Register />} /> */}
     </Routes>
   </UserContext.Provider>
 }
@@ -46,10 +49,34 @@ function NavBar() {
   let [userData, setUserData] = useContext(UserContext);
 
   useEffect(() => {
-    // fetch userData from localStorage
-    let userData = JSON.parse(localStorage.getItem('user'));
-    console.log(userData)
-    setUserData(userData);
+    // console.log("hi")
+    // get token from cookie
+    let token = new Cookie().get('token');
+    let tokenData = token ? jwt_decode(token) : {};
+    console.log(token)
+
+    // if token exists, fetch user data from server
+    if (token) {
+      fetch(`${config.apiUrl}/user/${tokenData.id}`, {
+        headers: {'Authorization': `Bearer ${token}`}
+      }).then(res => res.json())
+        .then(data => {
+          if (!data.success) {
+            alert("Token expired. Please login again.")
+            setUserData(null);
+            localStorage.removeItem('user');
+            new Cookie().remove('token');
+            return;
+          }
+
+          console.log(data);
+          setUserData(data);
+        })
+        .catch(err => {
+          console.log(err)
+          alert("Token expired. Please login again.")
+        })
+    }
   }, [])
 
   function handleLogout() {
@@ -63,7 +90,8 @@ function NavBar() {
       <left>
         <Link to="/Browse">
           <div className="flex">
-            <i className="fa-solid fa-list-ul"></i>
+            <FontAwesomeIcon icon={faListUl} style={{margin: "0 .5em"}} />
+            {/* <i className="fa-solid fa-list-ul"></i> */}
             <text2>Browse</text2>
           </div>
         </Link>
@@ -72,7 +100,8 @@ function NavBar() {
       <right>
         <Link to="/Search">
           <div className="flex">
-            <i className="fa-solid fa-magnifying-glass"></i>
+            <FontAwesomeIcon icon={faMagnifyingGlass} style={{margin: "0 .5em"}} />
+            {/* <i className="fa-solid fa-magnifying-glass"></i> */}
             <text2>Search</text2>
           </div>
         </Link>
