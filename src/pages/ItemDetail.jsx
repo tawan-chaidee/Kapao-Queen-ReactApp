@@ -141,7 +141,7 @@ function ItemDetail() {
                         <li class="nutri-box">
                             <div className='type'>{nutrientsKey[key][0]}</div>
                             <div>
-                                <span className='number'>{nutrition[key]}</span>
+                                <span className='number'>{Math.round(nutrition[key]*100)/100}</span>
                                 <span>{nutrientsKey[key][1]}</span>
                             </div>
                         </li>
