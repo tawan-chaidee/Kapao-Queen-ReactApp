@@ -1,11 +1,9 @@
 
-import React, { useRef } from 'react';
-import { useEffect } from 'react';
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import './style/Manager.css';
 import config from "../config"
-import { useForm } from 'react-hook-form';
+import { useForm} from 'react-hook-form';
 
 function FormInput({ id, formData, labelText, inputType = "text" }) {
     return <>
@@ -23,18 +21,14 @@ function Manager() {
     // Store fetch data
     const [foodItems, setFoodItem] = useState([]);
     // store ingredients number
-    const [ingredientsNum, setIngredientsNum] = useState({ add: 1, del: 1 });
-
+    const [ingredientsNum, setIngredientsNum] = useState(1);
+    const [isEdit, setIsEdit] = useState(false);
     // forms variable
-    const { register: addRegister, handleSubmit: addHandleSubmit } = useForm();
-    // // Store id of form to delte item
-    // const [deleteID, setDeleteID] = useState([]);
+    const { register: addRegister, handleSubmit: addHandleSubmit, setValue } = useForm()
 
     const deleteHandler = async (deleteID) => {
         try {
-            const response = await fetch(`http://localhost:3030/itemDelete?id=${deleteID}`, {
-                method: 'DELETE',
-            });
+            const response = await fetch(`${config.apiUrl}/itemDelete?id=${deleteID}`, { method: 'DELETE' });
 
             const result = await response.json();
             if (result.success) {
@@ -49,10 +43,42 @@ function Manager() {
         }
     }
 
-    const addHandler = async (data) => {
+    const editHandler = async (id) => {
+        // get the food information
+        try {
+            let response = await fetch(`${config.apiUrl}/itemDetail?id=${id}`);
+            let result = await response.json();
+            if (result.success) {
+                setIsEdit(true);
+
+                // set the value of form
+                for (let key in result.result) {
+                    setValue(key, result.result[key])
+                }
+
+                // set the value of ingredients
+                setIngredientsNum(result.result.ingredientslist.length)
+                for (let i = 0; i < result.result.ingredientslist.length; i++) {
+                    setValue(`ingredients.${i}.name`, result.result.ingredientslist[i].name);
+                    setValue(`ingredients.${i}.img`, result.result.ingredientslist[i].img);
+                }
+
+                // set the value of taglist
+                setValue("taglist", result.result.taglist.join(","));
+            } else {
+                alert(result.message);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    const addHandler = async (datas) => {
+        let data = {...datas}
+
         // get the formatted ingredients
-        let formattedIngredients = data.ingredient.map((ing) => `${ing.name}|${ing.img}`).join(",");
-        delete data.ingredient;
+        let formattedIngredients = data.ingredients.map((ing) => `${ing.name}|${ing.img}`).join(",");
+        delete data.ingredients;
         data.ingredientslist = formattedIngredients;
 
         // remove empty field
@@ -62,15 +88,26 @@ function Manager() {
             }
         }
 
+        // format the taglist
+        // data.taglist = data.taglist.join(",");
+
         // send data to server
+        console.log(data)
         try {
-            const response = await fetch('http://localhost:3030/itemSubmit', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data),
-            });
+            let response
+            if (isEdit) {
+                response = await fetch(`${config.apiUrl}/itemUpdate`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data),
+                });
+            } else {
+                response = await fetch(`${config.apiUrl}/itemSubmit`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data),
+                });
+            }
 
             const result = await response.json();
 
@@ -79,15 +116,37 @@ function Manager() {
             } else {
                 alert(result.message);
             }
-
         } catch (error) {
             console.error(error);
         }
-        
-        // for (let i = 0; i < data.add.ingredients.length; i++) {
-        //     data.add.ingredients[i] = data.add.ingredients[i].trim();
+        // try {
+        //     let response
+        //     if (isEdit) {
+        //         response = await fetch('http://localhost:3030/itemEdit', {
+        //             method: 'PUT',
+        //             headers: { 'Content-Type': 'application/json' },
+        //             body: JSON.stringify(data),
+        //         });
+        //     } else {
+        //         response = await fetch('http://localhost:3030/itemSubmit', {
+        //             method: 'POST',
+        //             headers: { 'Content-Type': 'application/json' },
+        //             body: JSON.stringify(data),
+        //         });
+        //     }
+        //     const result = await response.json();
+
+        //     if (result.success) {
+        //         window.location.reload();
+        //     } else {
+        //         alert(result.message);
+        //     }
+
+        // } catch (error) {
+        //     console.error(error);
         // }
-        console.log(data)
+
+        
     }
 
     // fetch ingredients and fooditem
@@ -129,6 +188,7 @@ function Manager() {
                         <td>
                             {/* Assign onclick handler of delete button */}
                             <button className="remove-button" onClick={() => { deleteHandler(item.id) }}>remove</button>
+                            <button className="remove-button" onClick={() => { editHandler(item.id) }}>edit</button>
                         </td>
                     </tr>
                 ))}
@@ -137,30 +197,40 @@ function Manager() {
 
 
         <article class="admin-container">
-            <br /><br />
-            <h1>Add Product</h1>
+            <div className='mode-selecter'>
+                <div className={isEdit || 'selected'} onClick={() => setIsEdit(false)}>Add Product</div>
+                <div className={isEdit && 'selected'} onClick={() => setIsEdit(true)}>Edit Product</div>
+            </div>
             <form onSubmit={addHandleSubmit(addHandler)} method="POST">
                 <section class="item">
-                    <FormInput id="id" formData={addRegister("id", { required: true })} labelText="ID*" />
+                    <FormInput id="id" formData={addRegister("id", { required: true })} labelText="ID*" inputType='number' />
                     <FormInput id="name" formData={addRegister("name", { required: true })} labelText="English Name*" />
                     <FormInput id="thname" formData={addRegister("thai_name")} labelText="Thai Name" />
                     <FormInput id="browse_description" formData={addRegister("browse_description")} inputType='textarea' labelText="Overview Description" />
                     <FormInput id="description" formData={addRegister("description")} inputType='textarea' labelText="Body Description" />
-                    <FormInput id="price" formData={addRegister("price")} labelText="Price tag" />
+                    <FormInput id="price" formData={addRegister("price")} inputType='number' labelText="Price tag" />
                     <FormInput id="type" formData={addRegister("type")} labelText="Type" />
                     <FormInput id="img" formData={addRegister("img")} labelText="Main image url" />
                     <FormInput id="background" formData={addRegister("background")} labelText="Background img url" />
                     <FormInput id="tags" formData={addRegister("taglist")} labelText="Tags (separated by ,)" />
                 </section>
                 <section class="item">
-                    {Array.from({ length: ingredientsNum.add }, (_, i) => (
+                    {Array.from({ length: ingredientsNum }, (_, i) => (
                         <>
-                            <FormInput id={`ingredient_${i}`} formData={addRegister(`ingredient.${i}.name`)} labelText={`Ingredient ${i + 1} Name`} />
-                            <FormInput id={`ingredient_${i}`} formData={addRegister(`ingredient.${i}.img`)} labelText={`Ingredient ${i + 1} Url`} />
+                            <FormInput id={`ingredients_${i}`} formData={addRegister(`ingredients.${i}.name`)} labelText={`Ingredient ${i + 1} Name`} />
+                            <FormInput id={`ingredients_${i}`} formData={addRegister(`ingredients.${i}.img`)} labelText={`Ingredient ${i + 1} Url`} />
                         </>
                     ))}
-                    <button onClick={() => setIngredientsNum({ add: ingredientsNum.add + 1, del: ingredientsNum.del })}>+</button>
-                    <button onClick={() => setIngredientsNum({ add: ingredientsNum.add - 1, del: ingredientsNum.del })}>-</button>
+                    <button onClick={(e) => {
+                        e.preventDefault()
+                        setIngredientsNum(e => e + 1)
+                    }}>+</button>
+                    <button onClick={(e) => {
+                        e.preventDefault()
+                        setValue(`ingredients.${ingredientsNum - 1}.name`, "")
+                        setValue(`ingredients.${ingredientsNum - 1}.img`, "")
+                        setIngredientsNum(e => e - 1)
+                    }}>-</button>
                 </section>
                 <section class="item">
                     <button type="submit" class="edit2-button">Submit</button>

@@ -138,3 +138,16 @@
     height: 38px;
   }
   
+  .mode-selecter {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 1em;
+    margin: 1em 0;
+    font-size: 1.25em;
+  }
+
+  .mode-selecter .selected {
+    font-weight: bold;
+    border-bottom: 2px solid orange;
+  }
