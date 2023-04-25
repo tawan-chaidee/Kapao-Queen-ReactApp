@@ -13,10 +13,7 @@ function SearchBar() {
     // Set Advance search on or off
     const [isAdvance, setisAdvance] = useState(false);
     // Search value
-    const [searchValue, setSearchValue] = useState({
-        "search-type": "name",
-        name: ""
-    });
+    const [searchValue, setSearchValue] = useState({});
 
     useEffect(() => {
         fetch(`${config.apiUrl}/foodlist`)
@@ -34,19 +31,9 @@ function SearchBar() {
 
     function onSubmitHandler() {
         let toBeSent = searchValue
-
-        // if not advance search, change the query
-        // by getting name from "search-type" input 
-        if (!isAdvance) {
-            let newQuery = {}
-            newQuery[searchValue["search-type"]] = searchValue.name
-            toBeSent = newQuery
-        }
-
         console.log(toBeSent)
         console.log(new URLSearchParams(toBeSent))
 
-        // 
         fetch(`${config.apiUrl}/itemSearch?` + new URLSearchParams(toBeSent).toString())
             .then((response) => response.json())
             .then((data) => {
@@ -72,21 +59,13 @@ function SearchBar() {
             <input type="text" onChange={onChangeHandler} name="name" placeholder="Input..." />
             <button class="cool-button" onClick={() => { onSubmitHandler() }}>Search</button>
             <button class="advance" onClick={() => setisAdvance(e => !e)}>Advance Search</button>
-            {isAdvance ?
+            {isAdvance &&
                 <>
                     <br></br>
                     <input type="text" class="advance-input" onChange={onChangeHandler} placeholder="Search by tag" name='tag' /><br />
                     <input type="text" class="advance-input" onChange={onChangeHandler} placeholder="Search by description" name='id' /><br />
                     <input type="number" class="advance-input" onChange={onChangeHandler} placeholder="Mininum price" name='minPrice' /><br />
                     <input type="number" class="advance-input" onChange={onChangeHandler} placeholder="Maximum price" name='maxPrice' /><br />
-                </>
-                :
-                <>
-                    <select id="type" name="search-type" value="name" onChange={onChangeHandler}>
-                        <option value="name">By Name</option>
-                        <option value="id">By ID</option>
-                        <option value="tag">By Tag</option>
-                    </select>
                 </>
             }
         </div>

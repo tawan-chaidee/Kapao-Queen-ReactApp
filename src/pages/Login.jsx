@@ -53,7 +53,8 @@ export default function Login() {
     localStorage.setItem("user", JSON.stringify(userData.user))
     setUserData(userData.user)
 
-    // redirect to home
+    // reload and redirect to home 
+    window.location.reload()
     return navigate("/")
   }
 

@@ -88,6 +88,7 @@ function Manager() {
         }
     }
 
+    // you can use data directly without the needs of onChange
     const formSubmitHandler = async (datas) => {
         let data = { ...datas } // not to delete original data
 
