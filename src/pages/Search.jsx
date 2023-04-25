@@ -5,20 +5,21 @@ import { useEffect } from "react";
 
 import { useState } from "react";
 import FoodItem from "../components/Item";
+import config from "../config";
 
 function SearchBar() {
-
-
     // Data of fetch api call
     const [data, setData] = useState([]);
     // Set Advance search on or off
     const [isAdvance, setisAdvance] = useState(false);
     // Search value
-    const [searchValue, setSearchValue] = useState({});
-
+    const [searchValue, setSearchValue] = useState({
+        "search-type": "name",
+        name: ""
+    });
 
     useEffect(() => {
-        fetch('http://localhost:3030/foodlist')
+        fetch(`${config.apiUrl}/foodlist`)
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
@@ -41,8 +42,10 @@ function SearchBar() {
             toBeSent = newQuery
         }
 
+        console.log(toBeSent)
+
         // sent
-        fetch(`http://localhost:3030/itemAdvanceSearch?` + new URLSearchParams(toBeSent).toString())
+        fetch(`${config.apiUrl}/itemSearch?` + new URLSearchParams(toBeSent).toString())
             .then((response) => response.json())
             .then((data) => {
                 if (data.success) {
@@ -54,12 +57,11 @@ function SearchBar() {
             })
     }
 
-
     function onChangeHandler(event) {
-        setSearchValue((e)=>({
-            ...e,
+        setSearchValue({
+            ...searchValue,
             [event.target.name]: event.target.value
-        }))
+        })
         console.log(searchValue)
     }
 
@@ -67,7 +69,7 @@ function SearchBar() {
         <div class="food-search-1">
             <input type="text" onChange={onChangeHandler} name="name" placeholder="Input..." />
             <button class="cool-button" onClick={() => { onSubmitHandler() }}>Search</button>
-            <button class="advance" onClick={() => setisAdvance(e=>!e)}>Advance Search</button>
+            <button class="advance" onClick={() => setisAdvance(e => !e)}>Advance Search</button>
             {isAdvance ?
                 <>
                     <br></br>
@@ -78,7 +80,7 @@ function SearchBar() {
                 </>
                 :
                 <>
-                    <select id="type" name="search-type" onChange={onChangeHandler}>
+                    <select id="type" name="search-type" value="name" onChange={onChangeHandler}>
                         <option value="name">By Name</option>
                         <option value="id">By ID</option>
                         <option value="tag">By Tag</option>
