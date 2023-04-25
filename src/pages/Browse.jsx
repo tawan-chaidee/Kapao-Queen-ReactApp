@@ -9,6 +9,7 @@ import ItemDetail from './ItemDetail';
 import { Link } from 'react-router-dom';
 import Item from '../components/Item';
 
+import config from '../config';
 
 //Special item component
 function Special({ title, description, img }) {
@@ -56,7 +57,7 @@ function Browse() {
 
     // Fetch json data of items from api
     useEffect(() => {
-        fetch('http://localhost:3030/foodlist')
+        fetch(`${config.apiUrl}/foodlist`)
             .then(response => response.json())
             .then(data => {
                 if (data.success) {

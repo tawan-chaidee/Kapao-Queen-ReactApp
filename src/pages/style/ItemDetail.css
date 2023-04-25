@@ -128,6 +128,21 @@ ul.taglist {
     height: 10em;
   }
   
+  .ingredients .container-2 .nutri-box {
+    width: 100px;
+    border-radius: .25em;
+    background-color: #EEE;
+    padding: .25em;
+    margin: 0 .25em;
+  }
+
+  .ingredients .container-2 .nutri-box .type {
+    /* font-weight: bold; */
+  }
+
+  .ingredients .container-2 .nutri-box .number {
+    font-size: 2em;
+  }
 
   
   .nutrition {

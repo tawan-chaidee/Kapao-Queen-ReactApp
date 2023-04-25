@@ -23,9 +23,9 @@ function Manager() {
     // read more on react-hook-form
     const { register, handleSubmit, setValue } = useForm()
 
-    // fetch ingredients and fooditem
+    // fetch fooditem
     useEffect(() => {
-        fetch('http://localhost:3030/foodlist')
+        fetch(`${config.apiUrl}/foodlist`)
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
