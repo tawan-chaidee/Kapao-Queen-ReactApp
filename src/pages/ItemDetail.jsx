@@ -5,6 +5,10 @@ import { useParams } from 'react-router-dom';
 import './style/ItemDetail.css';
 import config from '../config';
 
+
+// Map nutrition name get from API with understanable name
+// E.g API would give us CHOCDF, and we will replace it with
+// Carbohydrate, by difference"
 let nutrientsKey = 
     {
         "SUGAR.added": ["Added sugar","g"],
@@ -63,7 +67,6 @@ function ItemDetail() {
                 } else {
                     alert(data.message)
                 }
-
                 return fetch(`https://api.edamam.com/api/food-database/v2/parser?app_key=${config.edamamAppKey}&app_id=${config.edamanAppId}&ingr=${data.result.search_name}`)
             })
             .then(response => response.json())
@@ -76,8 +79,6 @@ function ItemDetail() {
                 }
             })
             .catch(error => console.error(error));
-
-
     }, []);
 
     return (
@@ -137,6 +138,7 @@ function ItemDetail() {
                 <p>Powered by <a href="https://developer.edamam.com" style={{color: "green"}}>Edamam</a></p>
                 <ul className="container-2">
                 {
+            
                     Object.keys(nutrition).map((key) => (
                         <li class="nutri-box">
                             <div className='type'>{nutrientsKey[key][0]}</div>

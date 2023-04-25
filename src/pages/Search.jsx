@@ -35,7 +35,8 @@ function SearchBar() {
     function onSubmitHandler() {
         let toBeSent = searchValue
 
-        // if not advance
+        // if not advance search, change the query
+        // by getting name from "search-type" input 
         if (!isAdvance) {
             let newQuery = {}
             newQuery[searchValue["search-type"]] = searchValue.name
@@ -43,8 +44,9 @@ function SearchBar() {
         }
 
         console.log(toBeSent)
+        console.log(new URLSearchParams(toBeSent))
 
-        // sent
+        // 
         fetch(`${config.apiUrl}/itemSearch?` + new URLSearchParams(toBeSent).toString())
             .then((response) => response.json())
             .then((data) => {
