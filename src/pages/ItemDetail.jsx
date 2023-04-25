@@ -130,17 +130,6 @@ function ItemDetail() {
                         </li>))
                     }
                 </ul>
-                {/* <ul className="container-2">
-                    <li>
-                        <img src={item.ingredient_1} />
-                    </li>
-                    <li>
-                        <img src={item.ingredient_2} />
-                    </li>
-                    <li>
-                        <img src={item.ingredient_3} />
-                    </li>
-                </ul> */}
             </section>
 
             <section className="ingredients">
@@ -173,8 +162,6 @@ function ItemDetail() {
                     </button>
                 </p>
             </section>
-            <footer></footer>
-            <script src="../lib/components.js"></script>
         </>
     );
 }

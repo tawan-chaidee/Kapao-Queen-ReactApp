@@ -33,6 +33,7 @@ function App() {
 
   return <UserContext.Provider value={[userData, setUserData]}>
     <NavBar />
+    <div class="main-body">
     <Routes>
       <Route path="/" element={<HomePage />} />
       <Route path="/Browse" element={<Browse />} />
@@ -42,6 +43,8 @@ function App() {
       <Route path="/login/" element={<Login />} />
       <Route path="/register/" element={<Register />} />
     </Routes>
+    </div>
+    <Footer/>
   </UserContext.Provider>
 }
 
@@ -58,7 +61,7 @@ function NavBar() {
     // if token exists, fetch user data from server
     if (token) {
       fetch(`${config.apiUrl}/user/${tokenData.id}`, {
-        headers: {'Authorization': `Bearer ${token}`}
+        headers: { 'Authorization': `Bearer ${token}` }
       }).then(res => res.json())
         .then(data => {
           if (!data.success) {
@@ -70,7 +73,7 @@ function NavBar() {
           }
 
           console.log(data);
-          setUserData(data);
+          setUserData(data.user);
         })
         .catch(err => {
           console.log(err)
@@ -90,7 +93,7 @@ function NavBar() {
       <left>
         <Link to="/Browse">
           <div className="flex">
-            <FontAwesomeIcon icon={faListUl} style={{margin: "0 .5em"}} />
+            <FontAwesomeIcon icon={faListUl} style={{ margin: "0 .5em" }} />
             {/* <i className="fa-solid fa-list-ul"></i> */}
             <text2>Browse</text2>
           </div>
@@ -100,7 +103,7 @@ function NavBar() {
       <right>
         <Link to="/Search">
           <div className="flex">
-            <FontAwesomeIcon icon={faMagnifyingGlass} style={{margin: "0 .5em"}} />
+            <FontAwesomeIcon icon={faMagnifyingGlass} style={{ margin: "0 .5em" }} />
             {/* <i className="fa-solid fa-magnifying-glass"></i> */}
             <text2>Search</text2>
           </div>
@@ -119,4 +122,25 @@ function NavBar() {
       </right>
     </header>
   )
+}
+
+function Footer() {
+  let [userData, setUserData] = useContext(UserContext);
+
+  return (<footer>
+    <ul>
+      {userData?.is_admin &&
+      <>
+      You are admin!
+      <Link to="itemmanager">
+        <li>Product admin</li>
+      </Link>
+      </>
+      }
+    </ul>
+    <div style={{textAlign: "right"}}>
+      Kapao Queen<br/>
+      Your cheap Thai food
+    </div>
+  </footer>)
 }
