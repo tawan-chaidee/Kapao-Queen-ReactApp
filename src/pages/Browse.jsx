@@ -84,22 +84,13 @@ function Browse() {
     return <>
         <Special {...special1} />
         <Container>
-            { foods.map((item) => (
-                <Item {...item}></Item>
-            ))}
+            { foods.map((item) => (<Item {...item}></Item>))}
         </Container>
         <Special {...special2} />
         <Container>
             {dessert.map((item) => (<Item {...item}></Item>))}
         </Container>
     </>
-
-
-    // function itemClickHandler(id) {
-
-    //     alert(id);
-    //     <ItemDetail id={id} />
-    // }
 }
 
 
