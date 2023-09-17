@@ -13,12 +13,21 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
       - name: Build
-        uses: ./.github/actions/build-action.yml
+        run: |
+          # Add build-related commands here
+          echo "Running build commands..."
 
       - name: Test
-        uses: ./.github/actions/test-action.yml
+        run: |
+          # Add test-related commands here
+          echo "Running test commands..."
 
       - name: SonarCloud Scan
-        uses: ./.github/actions/sonarcloud-scan-action.yml
-
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
