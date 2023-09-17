@@ -1,0 +1,20 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - main
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Run Build
+        run: |
+          # Add your build-related commands here
+          echo "Running build commands..."
