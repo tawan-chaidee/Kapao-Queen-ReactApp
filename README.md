@@ -1,6 +1,6 @@
 # Kapao Queen Project
 
-1. This is part of Web Programming. The development team includes:  
+1. This is part of Web Programming coursework. The development team includes:  
 - Kanatip Bhongsprapas (6488009) — Developed the authentication, user feature and maintained code quality  
 - Tawan Chaidee (6488011) — Developed most of the food-related features
 
